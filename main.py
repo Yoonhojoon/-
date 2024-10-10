@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont, PSDraw
 from pathlib import Path
+import time
 
 # 업로드된 이미지 저장 경로
 UPLOAD_DIR = Path("uploads/")
@@ -8,7 +9,7 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 # 숫자에 대응하는 메시지를 설정하는 부분 (필요시 추가 가능)
 def process_image(image_file: str, number: str):
     # 사용자로부터 입력받은 숫자를 찾음
-    text = "12526123"  # 없는 숫자는 입력받은 숫자로 처리
+    text = "1883"  # 없는 숫자는 입력받은 숫자로 처리
 
     # 웹캠 이미지를 Pillow로 열기
     img = Image.open(image_file)
@@ -47,6 +48,19 @@ def process_image(image_file: str, number: str):
     # # 텍스트 추가 (세로 위치는 고정)
     draw.text(position, text,align="center", font=font, fill=(0, 0, 0))  # 원하는 위치에 텍스트 삽입
 
+     #ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ날짜 합성ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 2.38베
+    text_date = "2024.11.02"
+    font_date = ImageFont.truetype("./uploads/Galmuri14.ttf", 400)
+
+    # 텍스트 크기 계산
+    bbox = draw.textbbox((0, 0), text_date, font=font_date)
+
+    date_width, date_height = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    position_date = ((img_size[0] - date_width) // 2, 4000)
+
+    draw.text(position_date, text_date, align="center", font=font_date, fill=(0,0,0))
+
+
     # # 결과 이미지를 저장 (JPG 형식)
     output_path = UPLOAD_DIR / "output.png"
     background.save(output_path, "png")  # JPG로 저장
@@ -58,4 +72,7 @@ test_image_file = 'uploads/webcam.png'  # 웹캠으로 찍은 이미지 파일
 test_number = "12323"  # 사용자 입력 숫자
 
 # 이미지 처리 함수 호출
+start = time.time()
 process_image(test_image_file, test_number)
+end=time.time()
+print(end-start)
