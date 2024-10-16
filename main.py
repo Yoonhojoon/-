@@ -9,7 +9,7 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 # 숫자에 대응하는 메시지를 설정하는 부분 (필요시 추가 가능)
 def process_image(image_file: str, number: str):
     # 사용자로부터 입력받은 숫자를 찾음
-    text = "1883"  # 없는 숫자는 입력받은 숫자로 처리
+    text = "5651883"  # 없는 숫자는 입력받은 숫자로 처리
 
     # 웹캠 이미지를 Pillow로 열기
     img = Image.open(image_file)
@@ -64,7 +64,7 @@ def process_image(image_file: str, number: str):
     # # 결과 이미지를 저장 (JPG 형식)
     output_path = UPLOAD_DIR / "output.jpg"
     background.save(output_path, "jpeg")  # JPG로 저장
-    
+
 
     print(f"Image processed successfully. Output saved at: {output_path}")
 

@@ -3,6 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
 import shutil
 import time
+import base64
 
 app = FastAPI()
 
@@ -67,7 +68,13 @@ def process_image(image_file: str, number: str):
     output_path = UPLOAD_DIR / "output.jpg"
     background.save(output_path, "jpeg")  # PNG로 저장
 
-    return output_path
+    # 이미지를 Base64로 인코딩하여 React로 전달할 수 있게 변환
+    with open(output_path, "rb") as img_file:
+        encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
+
+    return encoded_string  # Base64 인코딩된 이미지 데이터 반환
+
+
 
 # FastAPI 라우팅 부분
 @app.post("/process-image/")
@@ -79,12 +86,12 @@ async def process_image_api(file: UploadFile = File(...), number: str = Form(...
 
     # 이미지 처리 함수 호출
     start_time = time.time()
-    output_path = process_image(image_path, number)
+    encoded_image = process_image(image_path, number)
     end_time = time.time()
 
     return {
         "message": "Image processed successfully.",
-        "output_image": str(output_path),
+        "output_image": encoded_image,  # Base64 인코딩된 이미지 데이터
         "processing_time": end_time - start_time
     }
 
