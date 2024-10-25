@@ -76,8 +76,9 @@ def process_image(image_file: str, number: str):
 
 
     # # 결과 이미지를 저장 (JPG 형식)
-    output_path = UPLOAD_DIR / "output.png"
-    background.save(output_path, "png")  # JPG로 저장
+    output_path = UPLOAD_DIR / "output.jpg"
+    background = background.convert("RGB")
+    background.save(output_path, "jpeg")  # JPG로 저장
 
     print(f"Image processed successfully. Output saved at: {output_path}")
     activate_buzzer()

@@ -77,6 +77,7 @@ def process_image(image_file: str, number: str, message:str):
 
     # 결과 이미지를 저장 (PNG 형식)
     output_path = UPLOAD_DIR / "output.jpg"
+    background = background.convert("RGB")
     background.save(output_path, "jpeg")  # PNG로 저장
 
     # 이미지를 Base64로 인코딩하여 React로 전달할 수 있게 변환
