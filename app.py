@@ -27,6 +27,7 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 # 이미지 처리 함수
 def process_image(image_file: BytesIO, number: str):
     # 사용자로부터 입력받은 숫자를 처리
+
     text = number  # 사용자가 입력한 숫자를 텍스트로 사용
 
     # 웹캠 이미지를 Pillow로 열기
@@ -77,9 +78,21 @@ def process_image(image_file: BytesIO, number: str):
     # 날짜 텍스트 추가
     draw.text(position_date, text_date, align="center", font=font_date, fill=(0, 0, 0))
 
+ # 이미지 크기 비율을 유지하면서 확대할 크기 설정 (예)
+    background_width, background_height = background.size
+    scale_factor = 0.8
+    new_width = int(background_width * scale_factor)
+    new_height = int(background_height * scale_factor)
+    size = (new_width, new_height)
+
+    # 비율 유지하며 이미지 크기 조정
+    background= background.resize((new_width, new_height))
+    
+
     # 결과 이미지를 임시 파일로 저장
     output_path = UPLOAD_DIR / "output.jpg"
     background.save(output_path, "JPEG")
+    
 
     # 저장된 파일을 인쇄 명령어로 전송
     try:
@@ -126,10 +139,26 @@ async def process_image_api(input: PostInput):
 
 @app.get("/")
 def root():
+    ex = Image.open("./uploads/example.png").convert('RGB')  # Load the image
+
+    # 이미지 크기 조정 (80mm 폭, 약 640 픽셀에 맞게)
+    scale_width = 640
+    ex_width, ex_height = ex.size
+    scale_factor = scale_width / ex_width
+    new_height = int(ex_height * scale_factor)
+    resized_ex = ex.resize((scale_width, new_height))  # Resize to fit width
+
+
+    # 저장 경로
+    ex_path = UPLOAD_DIR / "centered_output.png"
+    resized_ex.save(ex_path, "png")
+
     try:
-        subprocess.run(["lp -d srp ./uploads/example.png"], shell=True)
+        # 정확한 이미지 파일 경로로 인쇄 명령 전송
+        subprocess.run(["lp", "-d", "srp", "./uploads/centered_output.png"], check=True)
         print("Printing command sent successfully.")
         activate_buzzer()
     except subprocess.CalledProcessError as e:
         print("An error occurred while printing:", e)
-    return {"message": "HELLOW"}
+
+    return {"message": "Image resized and printed centered on 80mm paper"}
