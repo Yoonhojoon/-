@@ -63,7 +63,8 @@ def process_image(image_file: str, number: str):
 
     # # 결과 이미지를 저장 (JPG 형식)
     output_path = UPLOAD_DIR / "output.png"
-    background.save(output_path, "png")  # JPG로 저장
+    background.save(output_path, "png")  # JPG로 저장tnrnfl12
+    
 
     print(f"Image processed successfully. Output saved at: {output_path}")
 
