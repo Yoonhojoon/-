@@ -5,6 +5,7 @@ import shutil
 import time
 import base64
 from buzzer import activate_buzzer
+import subprocess 
 
 app = FastAPI()
 
@@ -79,6 +80,15 @@ def process_image(image_file: str, number: str, message:str):
     output_path = UPLOAD_DIR / "output.jpg"
     background = background.convert("RGB")
     background.save(output_path, "jpeg")  # PNG로 저장
+
+
+    # 저장된 파일을 인쇄 명령어로 전송
+    try:
+        subprocess.run(["lp", "-d", "srp", str(output_path)], check=True)
+        print("Printing command sent successfully.")
+    except subprocess.CalledProcessError as e:
+        print("An error occurred while printing:", e)
+
 
     # 이미지를 Base64로 인코딩하여 React로 전달할 수 있게 변환
     with open(output_path, "rb") as img_file:
