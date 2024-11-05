@@ -17,6 +17,7 @@ CTRL SHIFT P -> SELECT INTERPRETER -> CHANGE
 
 2. install vs code
 https://code.visualstudio.com/download
+sudo apt install ./filename
 
 4. install node/npm
 4.have to upgrade node
