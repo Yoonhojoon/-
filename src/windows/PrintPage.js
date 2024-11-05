@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+// import axios from 'axios';
 import { photoPage, savePhotoData, startPage, showWindow, hideWindow } from '../redux/action';
 // 이미지
 import { ReactComponent as PrintPageButtonLight } from '../asset/printPageButtonLight.svg';
