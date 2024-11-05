@@ -11,6 +11,8 @@ sudo apt install python3-pip
 sudo pip install fastapi uvicorn
 sudo pip install pyserial
 
+python3 -m pip install --upgrade Pillow
+
 
 IF YOU INSTALL FASTAPI BUT NOT IMPORTED ERROR:
 CTRL SHIFT P -> SELECT INTERPRETER -> CHANGE 
@@ -22,7 +24,7 @@ sudo apt install ./filename
 4. install node/npm
 sudo apt-get install npm
 sudo apt-get install nginx
-6. 
+   
 4.have to upgrade node
 
 sudo apt-get install curl
