@@ -20,6 +20,9 @@ https://code.visualstudio.com/download
 sudo apt install ./filename
 
 4. install node/npm
+sudo apt-get install npm
+sudo apt-get install nginx
+6. 
 4.have to upgrade node
 
 sudo apt-get install curl
