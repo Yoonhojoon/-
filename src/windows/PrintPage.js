@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import { photoPage, savePhotoData, startPage, showWindow, hideWindow } from '../redux/action';
 // 이미지
 import { ReactComponent as PrintPageButtonLight } from '../asset/printPageButtonLight.svg';
@@ -36,7 +37,16 @@ const PrintPage = () => {
 
     // 버튼 클릭 시 동작
     const buttonOnMouseDown = () => {
+        const response = fetch("http://localhost:8000/print/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",  // JSON 형식으로 전송
+            },
+            // body: JSON.stringify(content),
+        });
+
         setButtonState(1);
+
     };
     const buttonOnMouseUp = () => {
         setButtonState(0);
