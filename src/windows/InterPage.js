@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector , useDispatch } from 'react-redux';
 import { showWindow, hideWindow, photoPage, codePage, savePhotoData, printPage, setProcessedImage } from '../redux/action';
 import messageInterpret from '../services/messageInterpret';
@@ -24,6 +24,17 @@ const InterPage = () => {
         const vh = window.innerHeight * 0.0463; // 4.63vh 계산
         return Math.min(vh, 50.01); // 최소값이 아니라, 최대 50.01px로 제한
     };
+
+    useEffect(() => {
+        // 특정 값에 따라 글자 크기 변경
+        const value = (photoDataState.split("//////"))[0];
+        if (value === "448866") { // 여기에 비교할 특정 값을 입력하세요
+        
+            document.getElementById("hihi").style.fontSize = '35px';
+        } else {
+            document.getElementById("hihi").style.fontSize = '40px';
+        }
+    }, []); // value가 변경될 때마다 useEffect가 실행됨
 
     const style = {
         codePage: {
@@ -82,7 +93,7 @@ const InterPage = () => {
         codeText: {
             // 글씨 
             fontFamily: 'Departure Mono, monospace',
-            fontSize: `${calculateResponsiveFontSize()}px`,
+            fontSize: `50.01px`,
             fontWeight: 'normal',
             // 간격
             flex: 42,
@@ -92,10 +103,6 @@ const InterPage = () => {
         },
 
         descriptionText: {
-            // 글씨 
-            fontFamily: 'Galmuri14, sans-serif',
-            fontSize: '40px',
-            fontWeight: 'normal',
             // 간격
             flex: 308,
             // 크기
@@ -105,6 +112,40 @@ const InterPage = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+
+            //
+            flexDirection: 'column',
+        },
+
+        innerT1:{
+            flex: 111,
+            // 글씨 
+            fontFamily: 'Galmuri14, sans-serif',
+            fontSize: '40px',
+            fontWeight: 'normal',
+            
+            // 
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+
+            //
+
+    
+        },
+
+        innerT2: {
+            flex: 207,
+            // 글씨 
+            fontFamily: 'Galmuri14, sans-serif',
+            fontSize: '40px',
+            fontWeight: 'normal',
+            
+            // 
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+            whiteSpace: 'pre-line'
         },
 
         buttonContainer: {
@@ -202,9 +243,17 @@ const InterPage = () => {
             <div style={style.empty2}></div>
             <div style={style.codeText}>{(photoDataState.split("//////"))[0]}</div>
             <div style={style.descriptionText}>
-                {(photoDataState.split("//////")).slice(1).join("\n") === "false" || (photoDataState.split("//////")).slice(1).join("\n") === false
-                    ? "해석이 없는 메시지에요"
-                    : (photoDataState.split("//////")).slice(1).join("\n")}
+                <div style={style.innerT1}>
+                    {/* {((photoDataState.split("//////")).slice(1).join(""))} */}
+                    {((photoDataState.split("//////")).slice(1).join("")).split("@@")[0]}
+                </div>
+                <div id="hihi" style={style.innerT2}>
+                    {((((photoDataState.split("//////")).slice(1).join("")).split("@@")[1]).split("##"))[0]}
+                    {"\n"}
+                    {((((photoDataState.split("//////")).slice(1).join("")).split("@@")[1]).split("##"))[1]}
+                
+                </div>
+                
             </div>
             <div id="hi" style={style.buttonContainer} onClick={handleFileUpload}>
                 {(buttonState == 0) && <InterPageButtonLight onMouseDown={buttonOnMouseDown}/>}
